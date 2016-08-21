@@ -9,11 +9,17 @@ The exercise objetive was to use the concepts learned in the book so far (multi 
 The API has to be something like that:
 
 I'm thinking in a number between 1 and 1000...
+
 Chop.guess(273, 1..1000)
+
 Is it 500?
+
 Is it 250?
+
 Is it 375?
+
 Is it 312?
+
 and so on...
 
 

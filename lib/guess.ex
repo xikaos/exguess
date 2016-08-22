@@ -25,25 +25,26 @@ defmodule Guess do
   # ~> the value of `actual` is different from the value of `x`
   #This implies in pattern matching the arguments passed and seeing if they fit. If they do, check if
   #the guard clause is evaluated to true, which implies in `actual` being less than `x`.
-  #POST-MORTEM: First time I run this, It was 
+  #POST-MORTEM: First time I run this, It was like looping forever in two numbers.
   def guess(x, a..b, actual) when actual < x do
     diff = b - a
-    sum = actual + div_helper(diff)
+    sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
-    guess(x, sum..b, sum)
+    guess(x, a..sum, sum)
   end
 
-  #This function clause should be called only if the other ones are not called, which means:
+  #This function clause should be called only if the other ones are not, which means:
   # ~> the value of `actual` is different from the value of `x`
   # ~> the value of `actual` is less than `x`
   #It pattern matches the arguments passed by and if guard expression is evaluated to true, it means
-  #that actual is bigger than x
+  #that `actual` is bigger than `x`
   def guess(x, a..b, actual) when actual > x do
     diff = b - a
-    range = actual..b
-    sum = actual - div_helper(diff)
+    # sum = actual - div_helper(diff)
+    IEx.pry
+    sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
@@ -63,6 +64,29 @@ defmodule Guess do
     div(num,2)
   end 
 
+  #This helper was needed to properly decrement the `actual` variable passed as parameter in a
+  #inner `Guess.guess` call. I do suspected that the bug had to happen in the only place dealing
+  #with a minus signal so I just wrote a function that is aware of the relation between `actual` and
+  #the return of `div_helper(diff)`.
+  #TODO:
+  #Guess.guess(13,0..20) is returning:
+  # Is it 10?
+  # Is it 5?
+  # Is it 2?
+  # Is it 1?
+
+  def sum_helper(x,y) when x == 10 do
+    IEx.pry
+  end
+
+  def sum_helper(x,y) when x > y do
+    x - y
+  end
+
+  def sum_helper(x,y) when y > x do
+    y - x
+  end
+
 end
 
-Guess.guess(1,0..15)
+Guess.guess(13,0..20)

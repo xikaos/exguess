@@ -44,3 +44,6 @@ Is it 1?
 The f*ckin number you are thinking is 1!!!
 ```
 
+##Bug fixed!
+It was fixed thanks to me realizing I needed to check when one operand was bigger than the other and then inverse their precedence.
+

@@ -28,7 +28,8 @@ defmodule Guess do
   #POST-MORTEM: First time I run this, It was like looping forever in two numbers.
   def guess(x, a..b, actual) when actual < x do
     diff = b - a
-    sum = sum_helper(actual, div_helper(diff))
+    sum = actual + div_helper(diff)
+    #sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
@@ -42,9 +43,8 @@ defmodule Guess do
   #that `actual` is bigger than `x`
   def guess(x, a..b, actual) when actual > x do
     diff = b - a
-    # sum = actual - div_helper(diff)
-    IEx.pry
-    sum = sum_helper(actual, div_helper(diff))
+    sum = actual - div_helper(diff)
+    #sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
@@ -75,18 +75,10 @@ defmodule Guess do
   # Is it 2?
   # Is it 1?
 
-  def sum_helper(x,y) when x == 10 do
-    IEx.pry
-  end
+  def sum_helper(x,y) when x == y, do: 0
 
-  def sum_helper(x,y) when x > y do
-    x - y
-  end
+  def sum_helper(x,y) when x > y, do: x - y
 
-  def sum_helper(x,y) when y > x do
-    y - x
-  end
-
+  def sum_helper(x,y) when y > x, do: y - x
 end
-
 Guess.guess(13,0..20)

@@ -19,7 +19,9 @@ defmodule Guess do
   #the value of `actual` which is equal do `x`.
   def guess(x, _, actual) when actual == x do
     IO.puts("The f*ckin number you are thinking is #{actual}!!!") 
+    x
   end
+
 
   #After looking up Dave Thomas solution in the forums, I figured that there is a very simple way
   #of checking if two parameters in a function are the same. I did the way I did above because
@@ -33,9 +35,9 @@ defmodule Guess do
   #the guard clause is evaluated to true, which means `actual` being less than `x`.
   #POST-MORTEM: First time I run this, It was like looping forever in two numbers.
   def guess(x, a..b, actual) when actual < x do
-    diff = sum_helper(a,b)
+    diff = b - a
+    #diff = sum_helper(a,b)
     sum = actual + div_helper(diff)
-    #sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
@@ -48,9 +50,9 @@ defmodule Guess do
   #It pattern matches the arguments passed by and if guard expression is evaluated to true, it means
   #that `actual` is bigger than `x`
   def guess(x, a..b, actual) when actual > x do
-    diff = sum_helper(a,b)
+    diff = b - a
+    #diff = sum_helper(a,b)
     sum = actual - div_helper(diff)
-    #sum = sum_helper(actual, div_helper(diff))
 
     IO.puts("Is it #{sum}?")
 
@@ -78,7 +80,7 @@ defmodule Guess do
   #mathematics because of ADHD. Can you guys be comprehensive in this aspect, right?
   #I keeped my solution the way I designed It and it worked out. The problem with negative numbers
   #was bothering me so I lookup what people were doing in the internet ^^.
-  def sum_helper(x,y), do: div(x + y,2)
+  def sum_helper(x,y), do: div(x + y, 2)
 end
 
 #~> FINAL LESSON, BECAUSE ITS BEEN SOME TIME SINCE I WAS STUCK IN THAT EXERCISE! <~
@@ -87,3 +89,8 @@ end
 # *It worth to break your head solving this kind of problem. Look on others solutions when you have
 #  to solve a bug or error, but give you the chance to really work on the main problem.
 # * I'll write some more tests before I end this exercise, to well, exercise testing practices!
+# *IMPORTANT: THE TESTS I WROTE SHOWED THE FUNCTION `sum_helper` has some problems with bigger*
+# *numbers (it loops foreva) so I have to take a closer look on it.*
+# KEEP ON IT
+
+Guess.guess(1,0..44)

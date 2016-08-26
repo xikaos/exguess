@@ -40,6 +40,6 @@ Yes.
 
 It think it worth.
 
-I bashed my head, and this is will be a interesting piece to look after when I'll improve in the language.
+I bashed my head aganist this simple exercise, and this is will be a interesting piece to look after when I improve in the language.
 
 So far, I'm loving it <3.

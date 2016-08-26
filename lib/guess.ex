@@ -17,17 +17,23 @@ defmodule Guess do
   #This should be the clause to stop recursion. The arguments get matched and then if the 
   #guard clause is evaluated to true (implies in our stop condition being fulfilled), it prints 
   #the value of `actual` which is equal do `x`.
-  def guess(x, a..b, actual) when actual == x do
+  def guess(x, _, actual) when actual == x do
     IO.puts("The f*ckin number you are thinking is #{actual}!!!") 
   end
+
+  #After looking up Dave Thomas solution in the forums, I figured that there is a very simple way
+  #of checking if two parameters in a function are the same. I did the way I did above because
+  #probably I was thinking in conditionals and forgot about what the match operator can do.
+  #I'll put Dave clause here because it was really mindblowing for me.
+  #def guess(x, _, x), do: IO.puts("The number you are thinking is #{x}!!!")
 
   #This function clause should be called only if the other ones are not called, which means:
   # ~> the value of `actual` is different from the value of `x`
   #This implies in pattern matching the arguments passed and seeing if they fit. If they do, check if
-  #the guard clause is evaluated to true, which implies in `actual` being less than `x`.
+  #the guard clause is evaluated to true, which means `actual` being less than `x`.
   #POST-MORTEM: First time I run this, It was like looping forever in two numbers.
   def guess(x, a..b, actual) when actual < x do
-    diff = b - a
+    diff = sum_helper(a,b)
     sum = actual + div_helper(diff)
     #sum = sum_helper(actual, div_helper(diff))
 
@@ -42,7 +48,7 @@ defmodule Guess do
   #It pattern matches the arguments passed by and if guard expression is evaluated to true, it means
   #that `actual` is bigger than `x`
   def guess(x, a..b, actual) when actual > x do
-    diff = b - a
+    diff = sum_helper(a,b)
     sum = actual - div_helper(diff)
     #sum = sum_helper(actual, div_helper(diff))
 
@@ -64,21 +70,20 @@ defmodule Guess do
     div(num,2)
   end 
 
-  #This helper was needed to properly decrement the `actual` variable passed as parameter in a
-  #inner `Guess.guess` call. I do suspected that the bug had to happen in the only place dealing
-  #with a minus signal so I just wrote a function that is aware of the relation between `actual` and
-  #the return of `div_helper(diff)`.
-  #TODO:
-  #Guess.guess(13,0..20) is returning:
-  # Is it 10?
-  # Is it 5?
-  # Is it 2?
-  # Is it 1?
 
-  def sum_helper(x,y) when x == y, do: 0
-
-  def sum_helper(x,y) when x > y, do: x - y
-
-  def sum_helper(x,y) when y > x, do: y - x
+  #MAN, THIS LITTLE FUNCTION STOPPED THE NEGATIVE NUMBERS BEING GUESSED!!!
+  #I was calculating the difference to use as a parameter to `div_helper` like: `b - a`, when the
+  #correct way of doing it was to sum the two "edges" of the range and divide by two. I didn't knew
+  #that till I looked Dave Thomas solution in the forums, but hey! I had a lot of problems in early
+  #mathematics because of ADHD. Can you guys be comprehensive in this aspect, right?
+  #I keeped my solution the way I designed It and it worked out. The problem with negative numbers
+  #was bothering me so I lookup what people were doing in the internet ^^.
+  def sum_helper(x,y), do: div(x + y,2)
 end
-Guess.guess(13,0..20)
+
+#~> FINAL LESSON, BECAUSE ITS BEEN SOME TIME SINCE I WAS STUCK IN THAT EXERCISE! <~
+# *Maybe I should avoid designing solutions in Elixir the way I think in OOP. That's fine.
+# *Pattern matching was a way underestimated by my part in terms of power. Seriously, its crazy.
+# *It worth to break your head solving this kind of problem. Look on others solutions when you have
+#  to solve a bug or error, but give you the chance to really work on the main problem.
+# * I'll write some more tests before I end this exercise, to well, exercise testing practices!

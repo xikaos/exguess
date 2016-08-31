@@ -1,9 +1,10 @@
 defmodule Chop do
   #Function heads are nasty
-  def guess(x, range)
+  def guess(x, x)
 
   #Stop recursion. x is returned to make tests work properly.
-  def guess(x, x..x) do
+  def guess(x, a..b) when 
+    div(a + b,2) == x do
     IO.puts("The number you want is #{x}!!!")
     x
   end
@@ -23,3 +24,5 @@ defmodule Chop do
   end
   
 end
+
+Chop.guess(22,0..23)
